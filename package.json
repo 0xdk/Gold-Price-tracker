@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "axios": "^1.6.3",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.3.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^8.0.3",
+    "node-cron": "^3.0.3",
+    "node-mailjet": "^6.0.5"
+  },
+  "scripts": {
+    "start": "node cronJob.js"
+  },
+  "name": "gold-price-tracker",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
