@@ -9,11 +9,11 @@
     "node-mailjet": "^6.0.5"
   },
   "scripts": {
-    "start": "node cronJob.js"
+    "start": "node cronJobs.js"
   },
   "name": "gold-price-tracker",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "cronJobs.js",
   "author": "",
   "license": "ISC",
   "description": ""
