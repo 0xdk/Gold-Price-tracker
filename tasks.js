@@ -1,4 +1,3 @@
-const cron = require('node-cron');
 const databaseConnection = require('./database/databaseConnection');
 const dataHandler = require('./database/dataHandling');
 const sendingMails = require('./mail');

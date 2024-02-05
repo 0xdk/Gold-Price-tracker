@@ -7,16 +7,16 @@ let tasks = require('./tasks');
 
 let app = express();
 
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 3000;
 
-app.get('/first-logic', (req, res) => {
+app.get('/first-task', (req, res) => {
   tasks.firstTask();
-  res.send('first logic worked');
+  res.send('first task worked');
 });
 
-app.get('/second-logic', (req, res) => {
+app.get('/second-task', (req, res) => {
   tasks.secondTask();
-  res.send('second logic worked');
+  res.send('second task worked');
 });
 
 app.listen(port, () => {

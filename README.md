@@ -14,7 +14,6 @@ I Built this project for myself and my relatives who are into gold investments, 
 
 - Node.js
 - Mongoose
-- Node-cron
 - Mailjet
   - [Mailjet Docs](https://dev.mailjet.com/email/guides/?javascript)
 
