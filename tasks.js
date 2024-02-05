@@ -11,12 +11,16 @@ const timeStamp = () => {
 };
 
 /**
- * Cron Job One - Web scraping and storing data to the database.
- * * This cron job is scheduled to run every day at 08:00 AM. It establishes a connection to the database,
- * invokes the `scrappingAndSaving` function from the `dataHandler` module to perform web scraping
- * and save the data to the database, Finally, it closes the database connection.
+ *   First Task: Scraping and Saving the Data
+ *
+ *   This Establishes a connection to the MongoDB database. Calls the 'scrappingAndSaving'
+ *   function from the 'dataHandler' module. Logs a timestamp. Handles errors and
+ *   closes the database connection if opened.
+ *
+ * @returns {Promise<void>} A Promise that resolves when the tasks are completed.
  */
-cron.schedule('0 8 * * *', async () => {
+
+let firstTask = async () => {
   let connection;
   try {
     // establishing Database connection
@@ -29,16 +33,17 @@ cron.schedule('0 8 * * *', async () => {
   } finally {
     if (connection) await connection.close();
   }
-});
-
+};
 /**
- * Cron Job Two - Fetching data from the database and sending emails.
- * * This cron job is scheduled to run every day at 08:30 AM. It establishes a connection to the database,
- * invokes the `fetchingAndSendingMail` function from the `sendingMails` module to fetch data
- * from the database and send emails. If any errors occur during the process,
- * it logs an error message. Finally, it closes the database connection.
+ *  Second Task: Fetching and Sending Email
+ *
+ *  Establishes a connection to the MongoDB database. Calls the 'fetchingAndSendingMail'
+ *  function from the 'sendingMails' module, Logs a timestamp. Handles errors
+ *  and closes the database connection if opened.
+ *
+ * @returns {Promise<void>} A Promise that resolves when the fetching and sending email tasks are completed.
  */
-cron.schedule('30 8 * * *', async () => {
+const secondTask = async () => {
   let connection;
   try {
     // establishing Database connection
@@ -51,4 +56,11 @@ cron.schedule('30 8 * * *', async () => {
   } finally {
     if (connection) await connection.close();
   }
-});
+};
+
+const cronLogic = {
+  firstTask,
+  secondTask,
+};
+
+module.exports = cronLogic;

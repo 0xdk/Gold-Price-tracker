@@ -36,7 +36,7 @@ const storingEmails = async () => {
 /**
  * Function to retrieve contact information (email addresses) from the Mailjet API.
  *
- * This function makes a request to the Mailjet API to retrieve contact information and extracts
+ * This function makes a request to the Mailjet API to retrieve contact(Mail) information and extracts
  * email addresses from the response data. It returns an array of email addresses.
  *
  * @returns {Array} An array of email addresses retrieved from the Mailjet API.
@@ -56,7 +56,7 @@ const retrieveMailAddresses = async () => {
 /**
  * Function to fetch data (gold prices) and send emails using the Mailjet API.
  *
- * This function establishes a connection to the database, retrieves email addresses from the database,
+ * Retrieves email addresses from the database,
  * fetches the latest gold prices, and sends personalized emails using the Mailjet API.
  */
 const fetchingAndSendingMail = async () => {

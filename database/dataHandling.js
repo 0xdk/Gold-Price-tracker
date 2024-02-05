@@ -47,11 +47,10 @@ const scrappingAndSaving = async () => {
  * representing historical gold prices stored in the database.
  *
  * @returns {Array} An array of objects representing historical gold price data.
- * @throws {Error} If an error occurs while fetching the data from the database.
  */
 
 // fetching the data from the database
-const fetchGoldPrices = async () => {
+async function fetchGoldPrices() {
   try {
     // Query the database to retrieve all gold price records
     const data = await GoldPriceModel.find({});
@@ -60,7 +59,7 @@ const fetchGoldPrices = async () => {
     console.error('Error fetching gold prices:', error);
     throw error; // Rethrow the error to handle it in the calling code
   }
-};
+}
 // Object encapsulating data handling functions
 const dataHandler = {
   scrappingAndSaving,
