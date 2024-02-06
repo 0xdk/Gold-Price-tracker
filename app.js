@@ -20,11 +20,13 @@ let port = process.env.PORT || 3000;
 
 app.get('/first-task', (req, res) => {
   tasks.firstTask();
+  console.log('First Task');
   res.send('first task worked');
 });
 
 app.get('/second-task', (req, res) => {
   tasks.secondTask();
+  console.log('Second Task');
   res.send('second task worked');
 });
 
