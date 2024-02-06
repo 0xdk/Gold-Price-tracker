@@ -1,11 +1,20 @@
 const { config } = require('dotenv');
 config();
-
 let express = require('express');
+let app = express();
+
+let databaseConnection = require('./database/databaseConnection');
+
+async function initializeDatabase() {
+  try {
+    let connection = await databaseConnection.connectToDatabase();
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
+initializeDatabase();
 
 let tasks = require('./tasks');
-
-let app = express();
 
 let port = process.env.PORT || 3000;
 
