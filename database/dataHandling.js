@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const scrappedResult = require('../scrapping');
+const scrappedResult = require('../scrapping/scrapping');
 const GoldPriceModel = require('./schema');
 
 /**
@@ -16,6 +16,21 @@ const scrappingAndSaving = async () => {
   try {
     // Scrapping
     const priceArray = await scrappedResult.chennaiGoldPrice();
+
+    // Check if the length of the `priceArray` is less than or equal to 0.
+    if (priceArray.length <= 0)
+      return console.error('Something went wrong on Scrapping Part');
+
+    /**
+     * Iterates over each element in the `priceArray` array, representing the rate of 1 g gold,
+     * multiplies each element by 8 to calculate the rate for 8 g gold.
+     */
+    priceArray.forEach((num, index, arr) => {
+      // Multiply each element by 8 to get the rate for 8 g gold
+      const result = num * 8;
+      // Append the result to the end of the array
+      arr.push(result);
+    });
 
     // Create a new Document using the GoldPriceModel
     const newGoldPrice = new GoldPriceModel({

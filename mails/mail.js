@@ -1,8 +1,8 @@
 const { config } = require('dotenv');
 config();
 const Mailjet = require('node-mailjet');
-const databaseConnection = require('./database/databaseConnection');
-const dataHandler = require('./database/dataHandling');
+const databaseConnection = require('../database/databaseConnection');
+const dataHandler = require('../database/dataHandling');
 
 const mailjet = Mailjet.apiConnect(
   process.env.API_KEY_PUBLIC,

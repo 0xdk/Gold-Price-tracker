@@ -11,11 +11,11 @@ const cheerio = require('cheerio');
  * @returns {Array} An array containing gold prices extracted from the website.
  * @throws {Error} If an error occurs during the web scraping process, it is logged and the error message is printed.
  */
-
 // Function to perform web scraping
 const chennaiGoldPrice = async () => {
   try {
-    const url = process.env.SITE_URL;
+    // const url = process.env.SITE_URL;
+    const url = 'https://www.livechennai.com/kalyan_jewellery_chennai.asp';
 
     // Sends an HTTP GET request to the target website
     const response = await axios.get(url);
@@ -31,7 +31,7 @@ const chennaiGoldPrice = async () => {
     });
 
     // Take the first five elements from the extracted data
-    const firstFiveElements = prices.slice(3, 7);
+    const firstFiveElements = prices.slice(1, 3);
 
     // Convert strings to numbers, removing commas from the formatted numbers
     const goldPriceArray = firstFiveElements.map((value) =>
@@ -43,8 +43,6 @@ const chennaiGoldPrice = async () => {
     console.error('Error:', error.message);
   }
 };
-
-// chennaiGoldPrice();
 
 const goldPriceScraping = {
   chennaiGoldPrice,
