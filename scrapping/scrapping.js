@@ -14,9 +14,7 @@ const cheerio = require('cheerio');
 // Function to perform web scraping
 const chennaiGoldPrice = async () => {
   try {
-    // const url = process.env.SITE_URL;
-    const url = 'https://www.livechennai.com/kalyan_jewellery_chennai.asp';
-
+    const url = process.env.SITE_URL;
     // Sends an HTTP GET request to the target website
     const response = await axios.get(url);
 
