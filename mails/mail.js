@@ -61,7 +61,8 @@ async function fetchingMailAddresses() {
 async function fetchingAndSendingMail() {
   try {
     // Retrieving email addresses from the MailJet database using the Mailjet API
-    const emails = fetchingMailAddresses();
+    const emails = await fetchingMailAddresses();
+    console.log(emails);
 
     const data = await scrapedData.groupIntoArrays();
 
