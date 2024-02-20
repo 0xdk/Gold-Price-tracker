@@ -23,6 +23,10 @@ let port = process.env.PORT || 3000;
  *
  */
 
+app.get('/', async (req, res) => {
+  res.send('This is Home Page go to "/send-mail" to send Mails');
+});
+
 app.get('/send-mail', async (req, res) => {
   try {
     // Calling the fetching and sending function from the mail module
