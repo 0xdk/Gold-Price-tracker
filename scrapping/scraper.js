@@ -28,49 +28,11 @@ async function scrapeData() {
       const textContent = $(element).text().trim();
       data.push(textContent);
     });
-    return data;
+    const firstFive = data.splice(3, 5);
+    return firstFive;
   } catch (error) {
     console.error(`An error occurred: ${error.message}`);
   }
 }
 
-/**
- * function that groups the scraped text data into arrays.
- * @returns {Promise<Array<Array<string>>>} A promise that resolves to an array of arrays,
- * where each inner array contains a group of elements from the scraped data.
- */
-async function groupIntoArrays() {
-  try {
-    const data = await scrapeData();
-
-    // Define the array to store groups and the desired group size
-    const arrayOfGroups = [];
-    const groupSize = 5;
-
-    // Remove the first three elements from the data
-    const trimmedData = data.slice(3);
-
-    // Consider the first fifty elements from the trimmed data
-    const firstFiftyElements = trimmedData.slice(0, 50);
-
-    // Loop through the first fifty elements and group them
-    for (let i = 0; i < firstFiftyElements.length; i++) {
-      // Check if the current index is a multiple of the group size
-      if (i % groupSize === 0) {
-        // If true, create a new array for the next group
-        const currentGroup = [];
-        arrayOfGroups.push(currentGroup);
-      }
-
-      // Add the current element to the last group in the array
-      arrayOfGroups[arrayOfGroups.length - 1].push(firstFiftyElements[i]);
-    }
-
-    // Return the array of groups
-    return arrayOfGroups;
-  } catch (error) {
-    throw new Error(`An error occurred: ${error.message}`);
-  }
-}
-
-module.exports = { groupIntoArrays };
+module.exports = { scrapeData };

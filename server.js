@@ -1,16 +1,17 @@
 const { config } = require('dotenv');
 config();
-let express = require('express');
-let app = express();
+const express = require('express');
+const app = express();
 
 const sendingMails = require('./mails/mail');
+const dataHandler = require('./database/datahandler');
 
-const timeStamp = () => {
+function timeStamp() {
   const date = Date.now();
   const timeStamp = new Date(date).toLocaleString();
   console.log(timeStamp);
   //return timeStamp;
-};
+}
 
 let port = process.env.PORT || 3000;
 
@@ -23,13 +24,19 @@ let port = process.env.PORT || 3000;
  *
  */
 
-app.get('/', async (req, res) => {
-  res.send('This is Home Page go to "/send-mail" to send Mails');
+app.get('/get-data', async (req, res) => {
+  try {
+    await dataHandler.scrappingAndStoring();
+    timeStamp();
+    res.send('data stored successfully');
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 app.get('/send-mail', async (req, res) => {
   try {
-    // Calling the fetching and sending function from the mail module
+    // Calling the fetching and storing function from the mail module
     await sendingMails.fetchingAndSendingMail();
     timeStamp();
     res.send('Mail Sent Successfully');
