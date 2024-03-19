@@ -3,12 +3,7 @@ config();
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-/**
- * This function is to scrape data from a website.
- * It goes to the site mentioned in the 'SITE_URL' variable, scrap the data
- * and store it in an array and then returns it
- *
- */
+//This function is to scrape data from a website.
 async function scrapeData() {
   try {
     const url = process.env.SITE_URL;
@@ -20,7 +15,6 @@ async function scrapeData() {
 
     // Find all <td> elements
     const tdElements = $('td');
-
     let data = [];
 
     // Extract text content from each <td> and log it
@@ -29,6 +23,7 @@ async function scrapeData() {
       data.push(textContent);
     });
     const firstFive = data.splice(3, 5);
+    console.log(firstFive);
     return firstFive;
   } catch (error) {
     console.error(`An error occurred: ${error.message}`);

@@ -1,28 +1,19 @@
-
 # Gold Price Tracker
 
 
-I Built this project for Myself and my Relatives who are into gold investments, this Project simplifies tracking **Daily Gold Prices**. It automates updates, and **Sends  Emails Everyday** with the latest info. 
-
+I Built this project for Myself and my Relatives who are into gold investments, this Project simplifies tracking **Daily Gold Prices**. It automates updates, and **Sends  Emails Everyday** with the latest Gold Price info.
 
 
 
 ## What's New
 
-
-In this update, I have removed MongoDB from project for a faster and more efficient experience.
-  
-Without the database layer, the project benefits from quicker data retrieval, simplified code architecture, and reduced resource consumption.
-
-Now, the gold price data is sent directly from the web-scraped data, eliminating the need for intermediate database storage. This approach not only speeds up data delivery but also simplifies the overall data flow.
-
+**Front-End** :I've recently added a front-end component to make the app more user-friendly and functional, now users can signup to get gold price upadate
 
 
 ## Roadmap
 
-- Enhance user interaction with a client-side interface using HTML, CSS, and JavaScript.
-
--  integrating Mailjet templates for a professional email experience. 
+- Integrating Mailjet templates for a professional email experience. 
+- To add cache memory
 ## Tech Stack
 
 
@@ -31,20 +22,37 @@ Now, the gold price data is sent directly from the web-scraped data, eliminating
 
 - Node.js
 - Express
--  Mailjet
-     - [Mailjet Docs](https://dev.mailjet.com/email/guides/?javascript)
+- Mongoose
+- MongoDB Atles
+
+**Service**
+-  [Mailjet](https://dev.mailjet.com/email/guides/?javascript)
+
+**Front-end**
+- HTML, CSS
+- Bootstrap
+- EJS
 
 
 ## Note
 
 
 This project currently focuses on sending gold price notifications for the city of **Chennai**. Due to the unavailability of a **Free API** for Indian gold prices, support for additional cities is limited. Future updates may include expanded city options based on availability of suitable data sources.
+
+
+## Screenshot
+**Email format** 
+
+
+![Email Screenshot](https://res.cloudinary.com/dr29uswhb/image/upload/v1710788674/gold_price_email_ss_vvvnmq.png)
+
+
 ## Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/0xdk/Gold-Price-tracker
+ git clone https://github.com/0xdk/Gold-Price-tracker
 ```
 
 
@@ -58,16 +66,11 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run start
+  npm run strat
 ```
 
 Access the application
-```bash
-  http://localhost:3000
-```
 
-To send Emails
 ```bash
-  http://localhost:3000/send-mail
+ http://localhost:3000
 ```
-

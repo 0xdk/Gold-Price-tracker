@@ -3,26 +3,25 @@ const scrappedResult = require('../scrapping/scraper');
 const GoldPriceModel = require('./schema');
 const databaseConnection = require('./databaseConnection');
 
-/**
- * Performs web scraping of gold prices from a specific website and stores the values in a MongoDB database.
- *
- * This function uses the `chennaiGoldPrice` function from the `scrappedResult` module
- * to retrieve the latest gold prices. It then creates a new document using the `GoldPriceModel`,
- * including the extracted price array and the current date. The new document is saved to the database.
- * Additionally, it ensures that the collection size is limited to 10 documents by removing the oldest document
- * if the collection exceeds this limit.
- */
-
+// Performs web scraping of gold prices from a specific website and stores the values in a MongoDB database.
 async function scrappingAndStoring() {
   try {
     // Scrapping
     const priceArray = await scrappedResult.scrapeData();
-    await databaseConnection.connectToDatabase();
-    // const priceArray = ['23/Feb/2024', '6,265', '50,120', '5,795', '46,360'];
+    // await databaseConnection.connectToDatabase();
 
-    // Check if the length of the `priceArray` is less than or equal to 0.
+    // Check if the priceArray length is <= 0: Ensures valid scraped data with at least one element
     if (priceArray.length <= 0)
       return console.error('Something went wrong on Scrapping Part');
+
+    const lastDocument = await GoldPriceModel.findOne()
+      .sort({ _id: -1 })
+      .exec();
+
+    // Check if current data is already stored based on the first element of price arrays
+    if (lastDocument.priceArray[0] === priceArray[0]) {
+      return 'Already stored the data';
+    }
 
     // Create a new Document using the GoldPriceModel
     const newGoldPrice = new GoldPriceModel({
@@ -35,8 +34,10 @@ async function scrappingAndStoring() {
     // Ensure the collection size is limited to 10 documents
     const arrayCount = await GoldPriceModel.countDocuments();
     if (arrayCount > 10) {
-      const oldArray = await GoldPriceModel.findOne({}, { sort: { date: 1 } });
-      await GoldPriceModel.deleteOne({ _id: oldArray._id });
+      const oldArray = await GoldPriceModel.findOneAndDelete(
+        {},
+        { sort: { date: 1 } }
+      );
       console.log(oldArray, 'Old array deleted');
     }
     console.log('Daily operation completed successfully');
@@ -47,24 +48,18 @@ async function scrappingAndStoring() {
   }
 }
 
-/**
- * Fetches gold price data from the MongoDB database using the GoldPriceModel.
- *
- * This function retrieves all documents from the `GoldPriceModel` collection,
- * representing historical gold prices stored in the database.
- *
- * @returns {Array} An array of objects representing historical gold price data.
- */
-
 // fetching the data from the database
 async function fetchGoldPrices() {
   try {
-    // Query the database to retrieve all gold price records
+    await databaseConnection.connectToDatabase();
+    // Querying the database to retrieve all gold price records
     const data = await GoldPriceModel.find({});
+    if (!data) return undefined;
+
     return data;
   } catch (error) {
     console.error('Error fetching gold prices:', error);
-    throw error; // Rethrow the error to handle it in the calling code
+    throw error;
   }
 }
 
