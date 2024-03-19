@@ -1,23 +1,11 @@
-require('dotenv').config();
-
+const { config } = require('dotenv');
+config();
 const express = require('express');
 const app = express();
-const path = require('path');
-// template engine
-const engine = require('ejs-mate');
-app.engine('ejs', engine);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-const methodOverride = require('method-override');
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 
 const sendingMails = require('./mails/mail');
 const dataHandler = require('./database/datahandler');
-const priceDifference = require('./priceChange');
 
-// for testing
 function timeStamp() {
   const date = Date.now();
   const timeStamp = new Date(date).toLocaleString();
@@ -26,7 +14,7 @@ function timeStamp() {
 }
 
 let port = process.env.PORT || 3000;
-const auth_token = 'Bearer ' + process.env.AUTH_TOKEN;
+const auth_token = process.env.AUTH_TOKEN;
 
 app.get('/', async (req, res) => {
   try {
@@ -51,10 +39,16 @@ app.post('/signup', async (req, res) => {
 
 app.get('/get-data', async (req, res) => {
   try {
+    let auth = req.headers['authorization'];
+
+    if (auth !== auth_token) {
+      console.log('not Authorized');
+      res.redirect('/');
+    }
+
     await dataHandler.scrappingAndStoring();
-    console.log('data stored successfully');
     timeStamp();
-    res.redirect('/');
+    res.send('data stored successfully');
   } catch (err) {
     console.log(err.message);
   }
@@ -63,14 +57,17 @@ app.get('/get-data', async (req, res) => {
 app.get('/send-mail', async (req, res) => {
   try {
     // Calling the fetching and storing function from the mail module
+    console.log(req.headers);
+    let auth = req.headers['authorization'];
+    console.log('Authorization Header:', auth);
+    console.log('Expected Auth Token:', auth_token);
 
-    let auth = req.headers['Authorization'];
-    console.log(auth_token);
-    console.log(auth);
-    if (auth !== process.env.AUTH_TOKEN) return console.log('not Authorized');
+    if (auth !== auth_token) {
+      console.log('not Authorized');
+      res.redirect('/');
+    }
 
     await sendingMails.fetchingAndSendingMail();
-    console.log('Mail Sent Successfully');
     timeStamp();
     res.redirect('/');
   } catch (err) {
