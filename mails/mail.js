@@ -1,5 +1,4 @@
-const { config } = require('dotenv');
-config();
+require('dotenv').config();
 const Mailjet = require('node-mailjet');
 const databaseConnection = require('../database/databaseConnection');
 const emailTemplate = require('./emailTemplate');
@@ -11,7 +10,7 @@ const mailjet = Mailjet.apiConnect(
 // Function to store emails (contacts) in the Mailjet database.
 
 async function storingEmailAddress(email) {
-  if (!email) return 'no email address entered';
+  if (!email) return console.log('no email address entered');
 
   // Creating a POST request to Mailjet's 'contact' endpoint with API version 'v3'
   const request = mailjet.post('contact', { version: 'v3' }).request({

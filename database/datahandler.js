@@ -1,14 +1,13 @@
-const mongoose = require('mongoose');
 const scrappedResult = require('../scrapping/scraper');
 const GoldPriceModel = require('./schema');
 const databaseConnection = require('./databaseConnection');
 
 // Performs web scraping of gold prices from a specific website and stores the values in a MongoDB database.
 async function scrappingAndStoring() {
+  const connection = await databaseConnection.connectToDatabase();
   try {
     // Scrapping
     const priceArray = await scrappedResult.scrapeData();
-    // await databaseConnection.connectToDatabase();
 
     // Check if the priceArray length is <= 0: Ensures valid scraped data with at least one element
     if (priceArray.length <= 0)
@@ -44,14 +43,14 @@ async function scrappingAndStoring() {
   } catch (err) {
     console.log(err, 'Error in running daily operation');
   } finally {
-    await mongoose.disconnect();
+    if (connection) connection.close();
   }
 }
 
 // fetching the data from the database
 async function fetchGoldPrices() {
+  const connection = await databaseConnection.connectToDatabase();
   try {
-    await databaseConnection.connectToDatabase();
     // Querying the database to retrieve all gold price records
     const data = await GoldPriceModel.find({});
     if (!data) return undefined;
@@ -60,6 +59,8 @@ async function fetchGoldPrices() {
   } catch (error) {
     console.error('Error fetching gold prices:', error);
     throw error;
+  } finally {
+    if (connection) connection.close();
   }
 }
 
