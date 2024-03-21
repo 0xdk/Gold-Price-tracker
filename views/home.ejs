@@ -31,6 +31,7 @@
       </div>
     </nav>
     <div class="container">
+      <%- include("./flash")%>
       <!-- Dark Mode Toggle -->
       <input type="checkbox" id="dark-mode-toggle" />
       <label class="mb-2" for="dark-mode-toggle" id="dark-mode-label">
@@ -162,6 +163,9 @@
               name="email"
               required
             />
+          </div>
+          <div>
+            <p id="form-label">Enter a valid email address</p>
           </div>
           <div class="text-center mt-1">
             <button

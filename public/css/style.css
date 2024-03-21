@@ -106,8 +106,8 @@ body.dark-mode .table.today-gold-rate {
 }
 
 .card-overlay {
-  width: 60%;
-  height: 50%;
+  width: 65%;
+  height: 55%;
   font-size: 16px;
   position: absolute;
   top: 50%;
@@ -242,17 +242,21 @@ body.dark-mode .table.today-gold-rate {
   -webkit-text-fill-color: transparent;
 }
 
+.page-wrap {
+  min-height: 100vh;
+}
+
 /** for small screen */
 @media (max-width: 867px) {
   .nav-title {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .lang-btn {
-    height: 20px;
-    width: 50px;
-    font-size: 10px;
-    padding: 2px 2px 10px 2px;
+    height: 22px;
+    width: 60px;
+    font-size: 12px;
+    padding: 3px 3px 11px 3px;
   }
 
   .large-image {
@@ -270,40 +274,38 @@ body.dark-mode .table.today-gold-rate {
   }
 
   .card-title {
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 0px;
   }
-  .price-pera {
-    font-size: 14px;
-  }
+
   #peraText1,
   #peraText2,
   #peraText3 {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   #icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
   }
 
   /* gold price table */
 
   .gold-rate-table {
     width: 95%;
-    font-size: 0.8em;
+    font-size: 1em;
     margin-top: 0%;
   }
   .title {
-    font-size: 11px;
+    font-size: 15px;
   }
 
   .gold-rate-table,
   .gold-rate-table span {
-    font-size: 10px;
+    font-size: 12px;
   }
   .gold-rate-table strong {
-    font-size: 12px;
+    font-size: 14px;
   }
   .table-header .table-title::before {
     content: 'G';
@@ -313,34 +315,34 @@ body.dark-mode .table.today-gold-rate {
     display: none;
   }
   #gold-rate-table {
-    font-size: 10px;
+    font-size: 13px;
   }
   .gold-rate-table-title {
     margin-top: 0;
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .email-form {
     max-width: 80%;
     margin: auto;
-    font-size: 12px;
+    font-size: 14px;
   }
   .email-form-title {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   #email-form-pera {
-    font-size: 12px;
+    font-size: 15px;
   }
 
   /* all paragraphs */
   .paragraphs {
-    font-size: 11px;
+    font-size: 14px;
   }
   .paragraphs-header {
-    font-size: 15px;
+    font-size: 16px;
   }
   .paragraph-title {
-    font-size: 16px;
+    font-size: 18px;
   }
 }

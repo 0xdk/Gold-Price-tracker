@@ -1,5 +1,4 @@
 // Other Language
-
 let isTamil = false;
 
 function toggleLanguage() {
@@ -9,7 +8,7 @@ function toggleLanguage() {
 
 function updateToTamil() {
   // Select the element with the class 'gram'
-  var gramElements = document.querySelectorAll('.gram');
+  let gramElements = document.querySelectorAll('.gram');
 
   // Loop through the selected elements
   gramElements.forEach(function (gramElement) {
@@ -53,6 +52,18 @@ function updateToTamil() {
   document.querySelector('.signupLink').textContent = isTamil
     ? 'பதிவுசெய்தல்'
     : 'Sign up';
+
+  document.getElementById('form-label').textContent = isTamil
+    ? 'சரியான மின்னஞ்சல் முகவரியை அளிக்கவும்'
+    : 'Enter a valid email address';
+
+  document.querySelector('.form-label').textContent = isTamil
+    ? 'மின்னஞ்சல் முகவரி'
+    : 'Email address';
+
+  document.querySelector('.lang-btn').textContent = isTamil
+    ? 'English'
+    : 'தமிழ்';
 
   // translating all the heading
   let headingElements = document.querySelectorAll('.paragraphs-header');

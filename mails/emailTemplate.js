@@ -1,5 +1,5 @@
 const GoldPriceModel = require('../database/schema');
-const priceDifference = require('../priceChange');
+const priceDifference = require('../utils/priceChange');
 
 async function getEmailConfig() {
   try {
@@ -10,16 +10,16 @@ async function getEmailConfig() {
     let htmlPart = `<h4>As of today, the market price for gold in Chennai is as follows:</4>
 
     
-    <h3>1 Gram Gold Price in Chennai - 24K & 22K</h3>
+    <h3>Today's 1 Gram Gold Prices in Chennai for 24K & 22K</h3>
     <ul>
-    <li>1 Gram of 24K Gold: <strong>₹${latestData.priceArray[1]}</strong> (<span>${difference.symbol}${difference.change[1]})</span></li>
-    <li>1 Gram of 22K Gold: <strong>₹${latestData.priceArray[3]}</strong> (<span>${difference.symbol}${difference.change[0]})</span></li>
+    <li>1 Gram of 24K Gold: <strong> ₹ ${latestData.priceArray[1]}</strong> (<span>${difference.symbol}${difference.change[1]})</span></li>
+    <li>1 Gram of 22K Gold: <strong> ₹ ${latestData.priceArray[3]}</strong> (<span>${difference.symbol}${difference.change[0]})</span></li>
     </ul>
     
-    <h3>8 Gram Gold Price in Chennai - 24K & 22K</h3>
+    <h3>Today's 8 Grams Gold Prices in Chennai for 24K & 22K</h3>
     <ul>
-      <li>24K Gold:<strong> ₹${latestData.priceArray[2]}</strong> per 8 gram (One Pavan/Savaran)</li>
-      <li>22K Gold:<strong> ₹${latestData.priceArray[4]}</strong> per 8 gram (One Pavan/Savaran)</li>
+      <li>24K Gold:<strong> ₹ ${latestData.priceArray[2]}</strong> per 8 gram (One Pavan/Savaran)</li>
+      <li>22K Gold:<strong> ₹ ${latestData.priceArray[4]}</strong> per 8 gram (One Pavan/Savaran)</li>
     </ul>
     
     <h3>Gold Rate in Chennai for Last 10 Days</h3>

@@ -10,23 +10,29 @@ const mailjet = Mailjet.apiConnect(
 // Function to store emails (contacts) in the Mailjet database.
 
 async function storingEmailAddress(email) {
-  if (!email) return console.log('no email address entered');
+  try {
+    if (!email) {
+      return console.error('Email address not provided');
+    }
 
-  // Creating a POST request to Mailjet's 'contact' endpoint with API version 'v3'
-  const request = mailjet.post('contact', { version: 'v3' }).request({
-    IsExcludedFromCampaigns: 'true',
-    // - Name: Name of the new contact (replace 'New Contact' with the actual name)
-    Name: 'New User',
-    // - Email: Email address of the new contact
-    Email: email,
-  });
-  request
-    .then((result) => {
-      console.log(result.body);
-    })
-    .catch((err) => {
-      console.log(err.message);
+    // Creating a POST request to Mailjet's 'contact' endpoint with API version 'v3'
+    const request = mailjet.post('contact', { version: 'v3' }).request({
+      IsExcludedFromCampaigns: 'true',
+      // - Name: Name of the new contact (replace 'New Contact' with the actual name)
+      Name: 'New User',
+      // - Email: Email address of the new contact
+      Email: email,
     });
+    request
+      .then((result) => {
+        console.log(result.body);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  } catch (err) {
+    console.error(err.message);
+  }
 }
 
 //  Function to retrieve contact information (email addresses) from the Mailjet Using API.
@@ -34,11 +40,14 @@ async function fetchingMailAddresses() {
   try {
     // Make an request to the Mailjet API to retrieve contact(Email) information
     const result = await mailjet.get('contact', { version: 'v3' }).request();
+    if (!result) {
+      return console.error('Could not find any emails');
+    }
     // Extract email addresses from the response data
     const contacts = result.body.Data;
     return contacts.map((contact) => contact.Email);
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
   }
 }
 
@@ -48,20 +57,19 @@ async function fetchingAndSendingMail() {
   try {
     // Retrieving email addresses from the MailJet database using the Mailjet API
     const emails = await fetchingMailAddresses();
-
+    if (!emails) {
+      return console.error('error fetching mail addresses');
+    }
     const emailConfig = await emailTemplate();
-
     // Sending emails using the Mailjet API
     const request = await mailjet.post('send', { version: 'v3.1' }).request({
-      // Global settings for the email campaign
-
+      // email template
       Globals: emailConfig,
       // Creating individual email messages for each recipient
       Messages: emails.map((email) => ({
         To: [{ Email: email }],
       })),
     });
-
     console.log(request.body);
   } catch (err) {
     console.error(err.message);

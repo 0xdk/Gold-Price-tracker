@@ -10,16 +10,18 @@ async function scrappingAndStoring() {
     const priceArray = await scrappedResult.scrapeData();
 
     // Check if the priceArray length is <= 0: Ensures valid scraped data with at least one element
-    if (priceArray.length <= 0)
-      return console.error('Something went wrong on Scrapping Part');
+    if (!priceArray || priceArray.length <= 0) {
+      return console.error('Something went wrong in the Scraping Part');
+    }
 
+    // fetch the last doc from DB
     const lastDocument = await GoldPriceModel.findOne()
       .sort({ _id: -1 })
       .exec();
 
-    // Check if current data is already stored based on the first element of price arrays
+    // Checks if lastDocument data is already stored on DB
     if (lastDocument.priceArray[0] === priceArray[0]) {
-      return 'Already stored the data';
+      return console.error('Data is already stored');
     }
 
     // Create a new Document using the GoldPriceModel
@@ -33,15 +35,12 @@ async function scrappingAndStoring() {
     // Ensure the collection size is limited to 10 documents
     const arrayCount = await GoldPriceModel.countDocuments();
     if (arrayCount > 10) {
-      const oldArray = await GoldPriceModel.findOneAndDelete(
-        {},
-        { sort: { date: 1 } }
-      );
-      console.log(oldArray, 'Old array deleted');
+      await GoldPriceModel.findOneAndDelete({}, { sort: { date: 1 } });
+      console.log('Old array deleted');
     }
     console.log('Daily operation completed successfully');
   } catch (err) {
-    console.log(err, 'Error in running daily operation');
+    console.error(err.message, 'Error in running daily operation');
   } finally {
     if (connection) connection.close();
   }
@@ -54,11 +53,9 @@ async function fetchGoldPrices() {
     // Querying the database to retrieve all gold price records
     const data = await GoldPriceModel.find({});
     if (!data) return undefined;
-
     return data;
   } catch (error) {
-    console.error('Error fetching gold prices:', error);
-    throw error;
+    console.error('Error fetching gold prices', error.message);
   } finally {
     if (connection) connection.close();
   }
