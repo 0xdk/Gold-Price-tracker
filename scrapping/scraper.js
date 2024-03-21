@@ -23,10 +23,9 @@ async function scrapeData() {
       data.push(textContent);
     });
     const firstFive = data.splice(3, 5);
-    console.log(firstFive);
     return firstFive;
   } catch (error) {
-    console.error(`An error occurred: ${error.message}`);
+    throw new Error(`An error occurred: ${error.message}`);
   }
 }
 
