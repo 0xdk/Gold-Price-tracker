@@ -20,6 +20,16 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary mb-2">
       <div id="existing-container" class="container-fluid">
         <h2 class="navbar-brand mx-auto nav-title">Gold Price Tracker</h2>
+      </div>
+    </nav>
+    <div class="container">
+      <%- include("./flash")%>
+      <!-- Dark Mode Toggle -->
+      <div class="buttons-container">
+        <input type="checkbox" id="dark-mode-toggle" />
+        <label class="mb-2" for="dark-mode-toggle" id="dark-mode-label">
+          <img id="icon" alt="Dark Mode Icon" />
+        </label>
         <button
           id="lang-btn"
           type="button"
@@ -29,16 +39,6 @@
           <span class="btn-txt">தமிழ்</span>
         </button>
       </div>
-    </nav>
-    <div class="container">
-      <%- include("./flash")%>
-      <!-- Dark Mode Toggle -->
-      <input type="checkbox" id="dark-mode-toggle" />
-      <label class="mb-2" for="dark-mode-toggle" id="dark-mode-label">
-        <img id="icon" alt="Dark Mode Icon" />
-      </label>
-      <button id="dark-mode-toggle">Dark Mode</button>
-
       <!--Daily Gold Rate Card -->
       <div class="row">
         <div class="col-md-12">
@@ -76,44 +76,49 @@
                         <thead class="thead-gold">
                           <tr>
                             <th class="th">
-                              <span class="table-title gram">Gram</span>
+                              <span class="table-title gram">Date</span>
                             </th>
                             <th class="th">
-                              <span class="table-title"> 22 K </span>
+                              <span class="table-title"> 1 Gram(22K) </span>
                             </th>
                             <th class="th">
-                              <span class="table-title"> 24 K </span>
+                              <span class="table-title"> 1 Gram(24K) </span>
                             </th>
                           </tr>
                         </thead>
                       </thead>
 
                       <tbody>
+                        <% const lastIndex = data.length - 1; %>
                         <tr>
-                          <td><span>1</span></td>
+                          <td>
+                            <span><%= data[lastIndex].priceArray[0] %></span>
+                          </td>
                           <td>
                             <i class="k22-inr"></i>
                             <strong
-                              >₹ <%= data[data.length - 1].priceArray[3] %>
+                              >₹ <%= data[lastIndex].priceArray[3] %>
                             </strong>
                             <span class="price-change"
-                              >(<%= difference.change[0] %>)</span
+                              >(<%= data[lastIndex].statusData.change[0]
+                              %>)</span
                             >
                             <span
-                              class="<%= difference.status === 'up' ? 'up-arrow' : (difference.status === 'down' ? 'down-arrow' : 'no-change') %>"
+                              class="<%= data[lastIndex].statusData.symbol === '+' ? 'up-arrow' : (data[lastIndex].statusData.symbol === '-' ? 'down-arrow' : 'no-change') %>"
                             ></span>
                           </td>
 
                           <td>
                             <i class="k22-inr"></i>
                             <strong
-                              >₹ <%= data[data.length - 1].priceArray[1] %>
+                              >₹ <%= data[lastIndex].priceArray[1] %>
                             </strong>
                             <span class="price-change"
-                              >(<%= difference.change[1] %>)</span
+                              >(<%=data[lastIndex].statusData.change[1]
+                              %>)</span
                             >
                             <span
-                              class="<%= difference.status === 'up' ? 'up-arrow' : (difference.status === 'down' ? 'down-arrow' : 'no-change') %>"
+                              class="<%= data[lastIndex].statusData.symbol === '+' ? 'up-arrow' : (data[lastIndex].statusData.symbol === '-' ? 'down-arrow' : 'no-change') %>"
                             ></span>
                           </td>
                         </tr>
@@ -127,9 +132,9 @@
                 <span id="peraText1"
                   >In Chennai today, the price for 22 karat gold is</span
                 >
-                <strong>₹<%= data[data.length - 1].priceArray[4]%></strong>
+                <strong>₹<%= data[lastIndex].priceArray[4]%></strong>
                 <span id="peraText2"> per Savaran, and 24 karat gold is </span>
-                <strong>₹<%= data[data.length - 1].priceArray[2] %></strong>
+                <strong>₹<%= data[lastIndex].priceArray[2] %></strong>
                 <span id="peraText3">
                   per Savaran (also called 999 gold).
                 </span>
@@ -148,8 +153,9 @@
         </div>
         <div class="text-center">
           <p id="email-form-pera">
-            You will receive a Email Everyday with Daily Gold Price and last 10
-            Days Price History
+            Get daily gold price updates delivered to your inbox, You will
+            receive a Email Everyday with Daily Gold Price and last 10 Days
+            Price History
           </p>
         </div>
         <form class="email-form validated-form" action="/signup" method="post">

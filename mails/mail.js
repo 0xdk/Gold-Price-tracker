@@ -14,13 +14,12 @@ async function storingEmailAddress(email) {
     if (!email) {
       return console.error('Email address not provided');
     }
-
+    // sends welcome Email
+    await sendWelcomeEmail(email);
     // Creating a POST request to Mailjet's 'contact' endpoint with API version 'v3'
     const request = mailjet.post('contact', { version: 'v3' }).request({
       IsExcludedFromCampaigns: 'true',
-      // - Name: Name of the new contact (replace 'New Contact' with the actual name)
       Name: 'New User',
-      // - Email: Email address of the new contact
       Email: email,
     });
     request
@@ -60,7 +59,7 @@ async function fetchingAndSendingMail() {
     if (!emails) {
       return console.error('error fetching mail addresses');
     }
-    const emailConfig = await emailTemplate();
+    const emailConfig = await emailTemplate.getEmailConfig();
     // Sending emails using the Mailjet API
     const request = await mailjet.post('send', { version: 'v3.1' }).request({
       // email template
@@ -75,6 +74,28 @@ async function fetchingAndSendingMail() {
     console.error(err.message);
   } finally {
     if (connection) connection.close();
+  }
+}
+
+async function sendWelcomeEmail(email) {
+  try {
+    if (!email) {
+      return console.error('error address in not provided');
+    }
+    console.log(email);
+
+    const signUpEmailTemplate = await emailTemplate.signUpEmailTemplate();
+    const request = await mailjet.post('send', { version: 'v3.1' }).request({
+      Globals: signUpEmailTemplate,
+      Messages: [
+        {
+          To: [{ Email: email }],
+        },
+      ],
+    });
+    console.log(request.body);
+  } catch (err) {
+    console.error(err.message);
   }
 }
 

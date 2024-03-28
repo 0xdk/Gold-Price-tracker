@@ -12,7 +12,7 @@ function updateToTamil() {
 
   // Loop through the selected elements
   gramElements.forEach(function (gramElement) {
-    gramElement.textContent = isTamil ? 'கி' : 'Gram ';
+    gramElement.textContent = isTamil ? 'தேதி' : 'Date';
   });
 
   // Update card title
@@ -36,7 +36,7 @@ function updateToTamil() {
 
   document.getElementById('email-form-pera').textContent = isTamil
     ? 'தினசரி தங்கத்தின் விலை மற்றும் கடந்த 10 நாட்கள் தங்கத்தின் விலையை  மின்னஞ்சலைப் பெறுவீர்கள்'
-    : 'You will receive a Email with Daily Gold Price and  last 10 Days Price HistoryGet daily gold price updates delivered to your inbox';
+    : ' Get daily gold price updates delivered to your inbox You will receive a Email with Daily Gold Price and  last 10 Days Price History';
 
   document.querySelector('.paragraph-title').textContent = isTamil
     ? 'தங்கம் பற்றிய சுவாரஸ்யமான தகவல்கள்'

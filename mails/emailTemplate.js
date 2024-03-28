@@ -1,10 +1,8 @@
 const GoldPriceModel = require('../database/schema');
-const priceDifference = require('../utils/priceChange');
 
 async function getEmailConfig() {
   try {
     const data = await GoldPriceModel.find({});
-    const difference = priceDifference.getPriceChangeInfo(data);
     const latestData = data[data.length - 1];
 
     let htmlPart = `<h4>As of today, the market price for gold in Chennai is as follows:</4>
@@ -12,8 +10,8 @@ async function getEmailConfig() {
     
     <h3>Today's 1 Gram Gold Prices in Chennai for 24K & 22K</h3>
     <ul>
-    <li>1 Gram of 24K Gold: <strong> ₹ ${latestData.priceArray[1]}</strong> (<span>${difference.symbol}${difference.change[1]})</span></li>
-    <li>1 Gram of 22K Gold: <strong> ₹ ${latestData.priceArray[3]}</strong> (<span>${difference.symbol}${difference.change[0]})</span></li>
+    <li>1 Gram of 24K Gold: <strong> ₹ ${latestData.priceArray[1]}</strong> (<span>${latestData.statusData.symbol}${latestData.statusData.change[1]})</span></li>
+    <li>1 Gram of 22K Gold: <strong> ₹ ${latestData.priceArray[3]}</strong> (<span>${latestData.statusData.symbol}${latestData.statusData.change[0]})</span></li>
     </ul>
     
     <h3>Today's 8 Grams Gold Prices in Chennai for 24K & 22K</h3>
@@ -61,8 +59,34 @@ async function getEmailConfig() {
     };
   } catch (error) {
     console.error('Error fetching gold price:', error);
-    throw error;
   }
 }
 
-module.exports = getEmailConfig;
+// sign up mail template
+async function signUpEmailTemplate() {
+  try {
+    let htmlPart = `<h3> Your signup to Gold Price Tracker was successful</h3>
+    <p>We're thrilled to welcome you aboard.We will inform you about market fluctuations and up-to-date with the latest trends</p>
+    <p>And, You will receive a <strong>email every day with the current day's gold price and the prices from the last ten days,</strong> </p>
+    <p>Stay ahead of the curve with our daily gold price updates. Find more about Gold at <a href=\"https://goldpricetracker.cyclic.app/">Gold Price Tracker</a> and start making informed decisions today!</p>
+    `;
+
+    return {
+      From: {
+        Email: process.env.SENDER_EMAIL,
+        Name: 'Gold Price Tracker',
+      },
+      TextPart: 'gold price',
+      Subject: 'Welcome to Gold Price Tracker',
+      HTMLPart: htmlPart,
+    };
+  } catch (err) {
+    console.error('Error fetching gold price:', err);
+  }
+}
+
+const emailTemplates = {
+  getEmailConfig,
+  signUpEmailTemplate,
+};
+module.exports = emailTemplates;

@@ -1,32 +1,40 @@
 const scrappedResult = require('../scrapping/scraper');
 const GoldPriceModel = require('./schema');
 const databaseConnection = require('./databaseConnection');
+const priceDifference = require('../utils/priceDIfference');
 
 // Performs web scraping of gold prices from a specific website and stores the values in a MongoDB database.
 async function scrappingAndStoring() {
   const connection = await databaseConnection.connectToDatabase();
   try {
-    // Scrapping
-    const priceArray = await scrappedResult.scrapeData();
+    // Scrapping the today gold price
+    const todayDoc = await scrappedResult.scrapeData();
 
     // Check if the priceArray length is <= 0: Ensures valid scraped data with at least one element
-    if (!priceArray || priceArray.length <= 0) {
+    if (!todayDoc || todayDoc.length <= 0) {
       return console.error('Something went wrong in the Scraping Part');
     }
 
-    // fetch the last doc from DB
-    const lastDocument = await GoldPriceModel.findOne()
+    // fetch the last doc from DB(yesterday)
+    const yesterdayDoc = await GoldPriceModel.findOne()
       .sort({ _id: -1 })
       .exec();
+    // Calculate price difference between yesterday's and today's gold prices
+    const difference = priceDifference.getPriceDifferenceInfo(
+      yesterdayDoc,
+      todayDoc
+    );
+    console.log(difference, 'difference');
 
-    // Checks if lastDocument data is already stored on DB
-    if (lastDocument.priceArray[0] === priceArray[0]) {
+    // Checks if lastDocument data is already stored on DB using Date
+    if (yesterdayDoc.priceArray[0] === todayDoc[0]) {
       return console.error('Data is already stored');
     }
 
     // Create a new Document using the GoldPriceModel
     const newGoldPrice = new GoldPriceModel({
-      priceArray: priceArray,
+      statusData: difference,
+      priceArray: todayDoc,
       date: new Date().toISOString().split('T')[0],
     });
     // saves that Doc

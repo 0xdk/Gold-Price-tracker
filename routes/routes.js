@@ -5,7 +5,6 @@ let router = express.Router();
 
 const sendingMails = require('../mails/mail');
 const dataHandler = require('../database/datahandler');
-const priceDifference = require('../utils/priceChange');
 const AppError = require('../utils/AppError');
 
 const authToken = process.env.AUTH_TOKEN;
@@ -50,23 +49,22 @@ router.get('/', async (req, res, next) => {
     // Throws an error if data is null/undefined or if data[0] has no priceArray property
     if (!data || !data[0].priceArray) {
       next(new AppError('Internal Server Error, Try later', 500));
+    } else {
+      res.render('home', { data });
     }
-    const difference = priceDifference.getPriceChangeInfo(data);
-    res.render('home', { data, difference });
   } catch (err) {
     next(err);
   }
 });
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', secureRouteMiddleware, async (req, res, next) => {
   try {
-    const email = req.body.email;
-    // const email = undefined;
+    const { email } = req.body;
     if (!email) {
       req.flash('error', 'Enter valid Email Id');
       return console.error('email id is not provided');
     }
-    // await sendingMails.storingEmailAddress(email);
+    await sendingMails.storingEmailAddress(email);
     req.flash('success', 'Sign up successful!');
     res.redirect('/');
   } catch (err) {
@@ -87,7 +85,7 @@ router.get('/get-data', secureRouteMiddleware, async (req, res, next) => {
   }
 });
 
-router.get('/send-mail', secureRouteMiddleware, async (req, res) => {
+router.get('/send-mail', async (req, res) => {
   try {
     // Calling the fetching and storing function from the mail module
     await sendingMails.fetchingAndSendingMail();
