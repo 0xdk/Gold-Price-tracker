@@ -57,7 +57,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/signup', secureRouteMiddleware, async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -85,7 +85,7 @@ router.get('/get-data', secureRouteMiddleware, async (req, res, next) => {
   }
 });
 
-router.get('/send-mail', async (req, res) => {
+router.get('/send-mail',secureRouteMiddleware, async (req, res) => {
   try {
     // Calling the fetching and storing function from the mail module
     await sendingMails.fetchingAndSendingMail();
