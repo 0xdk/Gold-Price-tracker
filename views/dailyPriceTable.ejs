@@ -1,0 +1,66 @@
+<h5 id="cardTitle" class="card-title text-center">
+  Today's Gold Rate in Chennai
+</h5>
+<div class="row pg-section no-gutters">
+  <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="table-responsive dark-mode-container mt-2">
+      <table
+        class="table table-bordered gold-rate-table bg-dark text-center"
+        id="table-price"
+      >
+        <thead class="thead-gold">
+          <thead class="thead-gold">
+            <tr>
+              <th class="th">
+                <span class="table-title gram">Date</span>
+              </th>
+              <th class="th">
+                <span class="table-title"> 1 Gram(22K) </span>
+              </th>
+              <th class="th">
+                <span class="table-title"> 1 Gram(24K) </span>
+              </th>
+            </tr>
+          </thead>
+        </thead>
+
+        <tbody>
+          <% const lastIndex = data.length - 1; %>
+          <tr>
+            <td>
+              <span><%= data[lastIndex].priceArray[0] %></span>
+            </td>
+            <td>
+              <i class="k22-inr"></i>
+              <strong>₹ <%= data[lastIndex].priceArray[3] %> </strong>
+              <span class="price-change"
+                >(<%= data[lastIndex].statusData.change[1] %>)</span
+              >
+              <span
+                class="<%= data[lastIndex].statusData.symbol === '+' ? 'up-arrow' : (data[lastIndex].statusData.symbol === '-' ? 'down-arrow' : 'no-change') %>"
+              ></span>
+            </td>
+
+            <td>
+              <i class="k22-inr"></i>
+              <strong>₹ <%= data[lastIndex].priceArray[1] %> </strong>
+              <span class="price-change"
+                >(<%=data[lastIndex].statusData.change[0] %>)</span
+              >
+              <span
+                class="<%= data[lastIndex].statusData.symbol === '+' ? 'up-arrow' : (data[lastIndex].statusData.symbol === '-' ? 'down-arrow' : 'no-change') %>"
+              ></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<p id="price-pera" class="price-pera mt-2">
+  <span id="peraText1">In Chennai today, the price for 22 karat gold is</span>
+  <strong>₹<%= data[lastIndex].priceArray[4]%></strong>
+  <span id="peraText2"> per Savaran, and 24 karat gold is </span>
+  <strong>₹<%= data[lastIndex].priceArray[2] %></strong>
+  <span id="peraText3"> per Savaran (also called 999 gold). </span>
+</p>

@@ -11,9 +11,13 @@ let goldPriceSchema = new Schema({
   },
   priceArray: {
     type: [String],
+    required: true,
   },
   date: {
+    // using date remove old data (making sure only last 10 days data stored)
     type: Date,
+    required: true,
+    index: true,
   },
 });
 
