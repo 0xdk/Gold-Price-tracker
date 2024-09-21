@@ -1,0 +1,36 @@
+<h4 class="gold-rate-table-title text-center mt-3">
+  Gold Rate in Chennai for Last 10 Days
+</h4>
+<div class="row pg-section no-gutters">
+  <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="table-responsive dark-mode-container text-center mt-3">
+      <table
+        class="table table-bordered gold-rate-table text-white"
+        id="gold-rate-table"
+      >
+        <thead>
+          <tr>
+            <th rowspan="2">Date</th>
+            <th colspan="2">24K</th>
+            <th colspan="2">22K</th>
+          </tr>
+          <tr>
+            <th>1 <span class="gram">Gram</span></th>
+            <th>8 <span class="gram">Grams</span></th>
+            <th>1 <span class="gram">Gram</span></th>
+            <th>8 <span class="gram">Grams</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = data.length - 1; i >= 0; i--) { %>
+          <tr>
+            <% for (var j = 0; j < data[i].priceArray.length; j++) { %>
+            <td><%= data[i].priceArray[j] %></td>
+            <% } %>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

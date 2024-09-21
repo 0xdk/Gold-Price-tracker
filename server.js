@@ -5,9 +5,11 @@ const methodOverride = require('method-override');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
+const connectToDatabase = require('./database/databaseConnection');
 
-const AppError = require('./utils/AppError');
 const routes = require('./routes/routes');
+// error handling middleware
+const errorHandleMiddleware = require('./middleware/errorHandleMiddleware');
 
 // template engine
 app.engine('ejs', engine);
@@ -16,6 +18,9 @@ app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// database connection
+connectToDatabase();
 
 // session
 const sessionConfig = {
@@ -35,10 +40,7 @@ app.use(flash());
 
 app.use('/', routes);
 
-app.use((req, res, next) => {
-  const err = new AppError('Page not found', 404);
-  next(err);
-});
+app.use(errorHandleMiddleware);
 
 app.use((err, req, res, next) => {
   const { message, status } = err;

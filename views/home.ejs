@@ -20,25 +20,17 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary mb-2">
       <div id="existing-container" class="container-fluid">
         <h2 class="navbar-brand mx-auto nav-title">Gold Price Tracker</h2>
+        <!-- Dark Mode Toggle -->
+        <div class="buttons-container">
+          <input type="checkbox" id="dark-mode-toggle" />
+          <label class="mb-2" for="dark-mode-toggle" id="dark-mode-label">
+            <img id="icon" alt="Dark Mode Icon" />
+          </label>
+        </div>
       </div>
     </nav>
     <div class="container">
       <%- include("./flash")%>
-      <!-- Dark Mode Toggle -->
-      <div class="buttons-container">
-        <input type="checkbox" id="dark-mode-toggle" />
-        <label class="mb-2" for="dark-mode-toggle" id="dark-mode-label">
-          <img id="icon" alt="Dark Mode Icon" />
-        </label>
-        <button
-          id="lang-btn"
-          type="button"
-          class="btn lang-btn"
-          onclick="toggleLanguage()"
-        >
-          <span class="btn-txt">தமிழ்</span>
-        </button>
-      </div>
       <!--Daily Gold Rate Card -->
       <div class="row">
         <div class="col-md-12">
@@ -59,169 +51,18 @@
 
             <!-- Gold Rate Card Overlay -->
             <div class="card card-overlay">
-              <h5 id="cardTitle" class="card-title text-center">
-                Today's Gold Rate in Chennai
-              </h5>
-
               <!--Daily Gold Rate Table -->
-
-              <div class="row pg-section no-gutters">
-                <div class="col-lg-12 col-md-12 col-xs-12">
-                  <div class="table-responsive dark-mode-container mt-2">
-                    <table
-                      class="table table-bordered gold-rate-table bg-dark text-center"
-                      id="table-price"
-                    >
-                      <thead class="thead-gold">
-                        <thead class="thead-gold">
-                          <tr>
-                            <th class="th">
-                              <span class="table-title gram">Date</span>
-                            </th>
-                            <th class="th">
-                              <span class="table-title"> 1 Gram(22K) </span>
-                            </th>
-                            <th class="th">
-                              <span class="table-title"> 1 Gram(24K) </span>
-                            </th>
-                          </tr>
-                        </thead>
-                      </thead>
-
-                      <tbody>
-                        <% const lastIndex = data.length - 1; %>
-                        <tr>
-                          <td>
-                            <span><%= data[lastIndex].priceArray[0] %></span>
-                          </td>
-                          <td>
-                            <i class="k22-inr"></i>
-                            <strong
-                              >₹ <%= data[lastIndex].priceArray[3] %>
-                            </strong>
-                            <span class="price-change"
-                              >(<%= data[lastIndex].statusData.change[0]
-                              %>)</span
-                            >
-                            <span
-                              class="<%= data[lastIndex].statusData.symbol === '+' ? 'up-arrow' : (data[lastIndex].statusData.symbol === '-' ? 'down-arrow' : 'no-change') %>"
-                            ></span>
-                          </td>
-
-                          <td>
-                            <i class="k22-inr"></i>
-                            <strong
-                              >₹ <%= data[lastIndex].priceArray[1] %>
-                            </strong>
-                            <span class="price-change"
-                              >(<%=data[lastIndex].statusData.change[1]
-                              %>)</span
-                            >
-                            <span
-                              class="<%= data[lastIndex].statusData.symbol === '+' ? 'up-arrow' : (data[lastIndex].statusData.symbol === '-' ? 'down-arrow' : 'no-change') %>"
-                            ></span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <p id="price-pera" class="price-pera mt-2">
-                <span id="peraText1"
-                  >In Chennai today, the price for 22 karat gold is</span
-                >
-                <strong>₹<%= data[lastIndex].priceArray[4]%></strong>
-                <span id="peraText2"> per Savaran, and 24 karat gold is </span>
-                <strong>₹<%= data[lastIndex].priceArray[2] %></strong>
-                <span id="peraText3">
-                  per Savaran (also called 999 gold).
-                </span>
-              </p>
+              <%- include("./dailyPriceTable.ejs")%> %>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Email Signup Form -->
-      <div class="container mt-5 mb-5">
-        <div class="text-center">
-          <h4 class="email-form-title" id="signupForm">
-            Sign-Up for Gold Price Update
-          </h4>
-        </div>
-        <div class="text-center">
-          <p id="email-form-pera">
-            Get daily gold price updates delivered to your inbox, You will
-            receive a Email Everyday with Daily Gold Price and last 10 Days
-            Price History
-          </p>
-        </div>
-        <form class="email-form validated-form" action="/signup" method="post">
-          <div class="mb-2">
-            <label for="InputEmail1" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control form-control-sm"
-              id="InputEmail1"
-              aria-describedby="emailHelp"
-              name="email"
-              required
-            />
-          </div>
-          <div>
-            <p id="form-label">Enter a valid email address</p>
-          </div>
-          <div class="text-center mt-1">
-            <button
-              type="submit"
-              class="btn btn-outline-dark email-btn mx-auto"
-            >
-              Sign Up
-            </button>
-          </div>
-        </form>
-      </div>
+      <%- include('./emailForm.ejs') %>
 
       <!--  Historical Gold Rate Table -->
+      <%- include('./goldPriceTable.ejs') %>
 
-      <h4 class="gold-rate-table-title text-center mt-3">
-        Gold Rate in Chennai for Last 10 Days
-      </h4>
-      <div class="row pg-section no-gutters">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-          <div class="table-responsive dark-mode-container text-center mt-3">
-            <table
-              class="table table-bordered gold-rate-table text-white"
-              id="gold-rate-table"
-            >
-              <thead>
-                <tr>
-                  <th rowspan="2">Date</th>
-                  <th colspan="2">24K</th>
-                  <th colspan="2">22K</th>
-                </tr>
-                <tr>
-                  <th>1 <span class="gram">Gram</span></th>
-                  <th>8 <span class="gram">Grams</span></th>
-                  <th>1 <span class="gram">Gram</span></th>
-                  <th>8 <span class="gram">Grams</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for (var i = data.length - 1; i >= 0; i--) { %>
-                <tr>
-                  <% for (var j = 0; j < data[i].priceArray.length; j++) { %>
-                  <td><%= data[i].priceArray[j] %></td>
-                  <% } %>
-                </tr>
-                <% } %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
       <!-- All the paragraphs  -->
       <%- include("./paragraph")%> %>
     </div>

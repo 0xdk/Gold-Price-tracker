@@ -1,0 +1,29 @@
+.paragraphs {
+  margin-top: 40px;
+}
+
+.section {
+  margin-bottom: 10rem;
+}
+
+.paragraphs-header {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.paragraphs_content {
+  font-size: 16px;
+  line-height: 1.6;
+  padding: 0 10 0 10;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .section .col-md-6 {
+    order: 1 !important; /* Stack text and image vertically on smaller screens */
+  }
+}

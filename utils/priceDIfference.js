@@ -16,7 +16,6 @@ function getPriceDifferenceInfo(yesterdayDoc, todayDoc) {
     yesterdayDoc.priceArray[3].replace(/,/g, ''),
     10
   );
-
   let difference22k = todayPrice22k - yesterdayPrice22k;
 
   if (difference24k > 0 || difference22k > 0) {
@@ -37,4 +36,4 @@ function getPriceDifferenceInfo(yesterdayDoc, todayDoc) {
   }
 }
 
-module.exports = { getPriceDifferenceInfo };
+module.exports = getPriceDifferenceInfo;

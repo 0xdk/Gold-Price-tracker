@@ -2,6 +2,7 @@ const { config } = require('dotenv');
 config();
 const axios = require('axios');
 const cheerio = require('cheerio');
+const AppError = require('../../utils/AppError');
 
 //This function is to scrape data from a website.
 async function scrapeData() {
@@ -22,11 +23,14 @@ async function scrapeData() {
       const textContent = $(element).text().trim();
       data.push(textContent);
     });
-    const firstFive = data.splice(3, 5);
-    return firstFive;
+    const todayDoc = data.splice(3, 5);
+    if (!todayDoc || todayDoc.length <= 0) {
+      throw new AppError('No valid gold price data scrapped');
+    }
+    return todayDoc;
   } catch (error) {
-    throw new Error(`An error occurred: ${error.message}`);
+    throw new AppError(`An error occurred: ${error.message}`);
   }
 }
 
-module.exports = { scrapeData };
+module.exports = scrapeData;
